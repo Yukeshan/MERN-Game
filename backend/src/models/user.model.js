@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema(
             type:String,
             default:""
         },
+        score:{
+            type:Number,
+            default:0
+        },
     },
     {
         timestamps:true //to show things such as created at and updated at

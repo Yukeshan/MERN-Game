@@ -1,5 +1,6 @@
+import { generateToken } from "../lib/utils";
 import User from "../models/user.model";
-import bcrypt from "bcryptjs"
+import bcrypt, { genSalt } from "bcryptjs"
 
 // signup logic
 export const signup = async (req,res) => {
@@ -15,6 +16,23 @@ export const signup = async (req,res) => {
 
         if(user){
             return res.status(400).json({message:"Email already exist."})
+        }
+
+        // hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password,salt);
+
+        const newUser = new User({
+            fullName, // fullName:fullName - both are same, so i made it shorter as fullName
+            email, // email:email - both are same, so i made it shorter as email
+            password:hashedPassword
+        })
+        if (newUser){
+            // generate jwt token
+            generateToken(newUser._id,res);
+        }
+        else{
+            return res.status(400).json({message:"Invalid user data."})
         }
 
     }
