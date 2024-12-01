@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
             type:String,
             default:""
         },
-        score:{
+        totalScore:{
             type:Number,
             default:0
         },

@@ -12,8 +12,9 @@ const app = express();
 const PORT = process.env.PORT;
 
 //attach the router with base path
+app.use(express.json()); // must be added brfore attaching routes.
 app.use("/api/auth", authRoutes);
-app.use(express.json());
+
 
 //start the server and listen to port 3001
 app.listen(PORT,()=>{
@@ -21,4 +22,4 @@ app.listen(PORT,()=>{
     connectDb();
 })
 
-///41:00
+///46:30

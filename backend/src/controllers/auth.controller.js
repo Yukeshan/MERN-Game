@@ -1,18 +1,23 @@
-import { generateToken } from "../lib/utils";
-import User from "../models/user.model";
-import bcrypt, { genSalt } from "bcryptjs"
+import { generateToken } from "../lib/utils.js";
+import User from "../models/user.model.js";
+import bcrypt from "bcryptjs"
 
 // signup logic
 export const signup = async (req,res) => {
     const {fullName,email,password} = req.body;
     try{
+        //form validation
+        if(!password || !fullName || !email){
+            return res.status(400).json({message:"Please fill all the fields"})
+        }
+
         // password validation
-        if(password.lengt<6){
+        if(password.length<6){
             return res.status(400).json({message:"Password must be at least 6 characters."});
         }
         
         // email validation
-        const user = User.findOne({email});
+        const user = await User.findOne({email});
 
         if(user){
             return res.status(400).json({message:"Email already exist."})
@@ -27,9 +32,20 @@ export const signup = async (req,res) => {
             email, // email:email - both are same, so i made it shorter as email
             password:hashedPassword
         })
+
         if (newUser){
             // generate jwt token
+            await newUser.save();
             generateToken(newUser._id,res);
+            
+
+            return res.status(201).json({
+                _id:newUser._id,
+                fullName:newUser.fullName,
+                email:newUser.email,
+                profilePic:newUser.profilePic,
+                totalScore:newUser.totalScore
+            })
         }
         else{
             return res.status(400).json({message:"Invalid user data."})
@@ -37,7 +53,8 @@ export const signup = async (req,res) => {
 
     }
     catch(error){
-
+        console.log("Error in signup controller",error.message);
+        return res.status(500).json({message:"internal Server Error"})
     }
 }
 
@@ -50,3 +67,5 @@ export const login = (req,res) => {
 export const logout = (req,res) => {
     res.send("logout route");
 }
+
+//43:44
