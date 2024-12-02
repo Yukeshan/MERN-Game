@@ -1,7 +1,8 @@
 import express from "express"
 import authRoutes from "./routes/auth.route.js"
 import dotenv from "dotenv"
-import { connectDb } from "./lib/db.js";
+import { connectDb } from "./lib/db.js"
+import cookieParser from "cookie-parser"
 
 //we should have this method to use variables from .env files
 dotenv.config();
@@ -9,11 +10,17 @@ dotenv.config();
 //create express server
 const app = express();
 
+//get port number from .env file
 const PORT = process.env.PORT;
 
-//attach the router with base path
-app.use(express.json()); // must be added brfore attaching routes.
+app.use(express.json()); 
+
+// use cookie-parser which allows to parse the cookie.
+app.use(cookieParser());
+
+
 app.use("/api/auth", authRoutes);
+
 
 
 //start the server and listen to port 3001
@@ -22,4 +29,4 @@ app.listen(PORT,()=>{
     connectDb();
 })
 
-///53:40
+///01:00:50
