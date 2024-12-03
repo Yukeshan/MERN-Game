@@ -6,12 +6,12 @@ import Footer from './components/Footer.jsx'
 import Navbar from './components/Navbar.jsx'
 import WelcomeFlex from './components/WelcomeFlex.jsx'
 import Instructions from './components/Instructions.jsx'
+import QuizEasy from './components/QuizEasy.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Navbar/>
-    <WelcomeFlex/>
-    <Instructions/>
+    <QuizEasy/>
     <Footer/>
   </StrictMode>,
 )
