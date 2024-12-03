@@ -213,11 +213,7 @@ function QuizEasy() {
         </div>
       </div>
 
-      {/* Footer Buttons */}
-      <div className="flex space-x-4 mt-6">
-        <button className="btn btn-error">Exit</button>
-        <button className="btn btn-secondary">Settings</button>
-      </div>
+
     </div>
   );
 }
