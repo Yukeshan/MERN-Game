@@ -51,7 +51,7 @@ const App = () => {
         <Route path="/quiz/easy" element={authUser ? <QuizEasy />: <LoginPage/>} />
         <Route path="/quiz/medium" element={authUser ? <QuizMedium />: <LoginPage/>} />
         <Route path="/quiz/hard" element={authUser ? <QuizHard />: <LoginPage/>} />
-        <Route path="/math-news" element={<MathNews/>} />
+        <Route path="/math-news" element={authUser ? <MathNews/>: <LoginPage/>} />
 
       </Routes>
 
