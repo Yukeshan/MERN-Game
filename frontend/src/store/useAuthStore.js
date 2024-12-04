@@ -8,6 +8,7 @@ export const useAuthStore = create((set) => ({
   isLoggingIn: false,
   isSigningUp: false,
   isLoggingOut: false,
+  isIncreasingScore: false, // To track score increase status
 
   checkAuth: async () => {
     try {
@@ -57,6 +58,22 @@ export const useAuthStore = create((set) => ({
       throw error.response?.data?.message || "Logout failed.";
     } finally {
       set({ isLoggingOut: false });
+    }
+  },
+
+  // New function to increase the total score by 10
+  increaseScore: async () => {
+    set({ isIncreasingScore: true });
+    try {
+      const res = await axiosInstance.patch("/auth/increase-score");
+      set((state) => ({
+        authUser: { ...state.authUser, totalScore: res.data.totalScore }, // Update the total score in the store
+      }));
+    } catch (error) {
+      console.error("Error during increaseScore:", error.response?.data || error.message);
+      throw error.response?.data?.message || "Failed to increase score.";
+    } finally {
+      set({ isIncreasingScore: false });
     }
   },
 }));

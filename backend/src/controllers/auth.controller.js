@@ -140,3 +140,33 @@ export const checkAuth = (req,res) => {
         return res.status(500).json({message:"Internal server error"});
     }
 }
+
+// increase score logic
+export const increaseScore = async (req, res) => {
+    try {
+        // Retrieve the user ID from the protected route
+        const userId = req.user._id;
+        
+        // Find the user in the database
+        const user = await User.findById(userId);
+        
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Increase the user's total score by 10
+        user.totalScore += 10;
+
+        // Save the updated user
+        const updatedUser = await user.save();
+
+        return res.status(200).json({
+            message: "Score increased by 10",
+            totalScore: updatedUser.totalScore,
+        });
+
+    } catch (error) {
+        console.log("Error in increaseScore controller", error.message);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};

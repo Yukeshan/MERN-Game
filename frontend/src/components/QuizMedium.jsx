@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useAuthStore } from "../store/useAuthStore.js";
+
 
 function QuizMedium() {
   const [questionImage, setQuestionImage] = useState("");
@@ -12,6 +14,7 @@ function QuizMedium() {
   const [isAnswerSectionVisible, setIsAnswerSectionVisible] = useState(true);
   const [isTryAgainButtonVisible, setIsTryAgainButtonVisible] = useState(false);
   const [message, setMessage] = useState("");
+  const { increaseScore, authUser, isIncreasingScore } = useAuthStore();
 
   useEffect(() => {
     if (!isGameStarted) {
@@ -81,6 +84,7 @@ function QuizMedium() {
       setIsCorrect(true);
       setMessage("🎉 Correct! Great job!");
       setIsTimerRunning(false); // Pause the timer
+      increaseScore(); // increase score
       setTimeout(() => {
         refreshQuiz();
       }, 2000); // Add a slight delay before refreshing

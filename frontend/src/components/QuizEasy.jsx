@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAuthStore } from "../store/useAuthStore.js";
 
 function QuizEasy() {
   const [questionImage, setQuestionImage] = useState("");
@@ -12,6 +13,7 @@ function QuizEasy() {
   const [isAnswerSectionVisible, setIsAnswerSectionVisible] = useState(true);
   const [isTryAgainButtonVisible, setIsTryAgainButtonVisible] = useState(false);
   const [message, setMessage] = useState("");
+  const { increaseScore, authUser, isIncreasingScore } = useAuthStore();
 
   useEffect(() => {
     if (!isGameStarted) {
@@ -75,13 +77,13 @@ function QuizEasy() {
       setMessage("⚠️ Error loading new question. Please try again.");
     }
   };
-  
 
   const handleSubmit = () => {
     if (parseInt(answer) === solution) {
       setIsCorrect(true);
       setMessage("🎉 Correct! Great job!");
       setIsTimerRunning(false); // Pause the timer
+      increaseScore(); // increase score
       setTimeout(() => {
         refreshQuiz();
       }, 2000); // Add a slight delay before refreshing
@@ -100,10 +102,6 @@ function QuizEasy() {
     }
   };
   
-  
-  
-  
-
   const handleTryAgain = () => {
     setIsGameStarted(false);
     setIsTimerRunning(true);
@@ -116,6 +114,9 @@ function QuizEasy() {
     setTimer(30);
   };
 
+  // Extract user information from the authUser object in the Zustand store
+  const { email } = authUser || {};
+
   return (
     <div className="relative min-h-screen bg-purple-200 flex flex-col items-center justify-center py-8">
       {/* Header Section */}
@@ -127,15 +128,8 @@ function QuizEasy() {
       <div className="card w-4/5 max-w-4xl bg-base-100 shadow-xl mb-6">
         <div className="card-body flex items-start space-x-4">
           {/* User Info */}
-          <div className="flex items-center space-x-4">
-            <div className="avatar">
-              <div className="w-12 h-12 rounded bg-gray-300"></div>
-            </div>
-            <div>
-              <p className="text-sm font-medium">Username: </p>
-              <p className="text-sm">Email: </p>
-              <p className="text-sm">Total Score: </p>
-            </div>
+          <div>
+            <p className="text-sm font-medium">Email: {email || "Loading..."}</p>
           </div>
           {/* Lifelines */}
           <div className="absolute bottom-4 right-4 flex items-center space-x-2 bg-base-200 p-2 rounded-lg shadow-md">
@@ -178,42 +172,40 @@ function QuizEasy() {
 
           {/* Answer Section or Try Again Section */}
           {isAnswerSectionVisible ? (
-  <div className="flex flex-col items-center space-y-4">
-    <div className="form-control">
-      <label htmlFor="answer" className="label">
-        <span className="label-text">Answer:</span>
-      </label>
-      <input
-        id="answer"
-        type="text"
-        value={answer}
-        onChange={handleAnswerChange}
-        placeholder="Enter your answer"
-        className="input input-bordered w-full max-w-xs"
-      />
-    </div>
-    <button onClick={handleSubmit} className="btn btn-primary w-full max-w-xs">
-      Submit
-    </button>
-    {message && (
-      <p className={`text-lg font-semibold ${isCorrect ? "text-green-600" : "text-red-600"}`}>
-        {message}
-      </p>
-    )}
-  </div>
-) : (
-  <div className="flex flex-col items-center justify-center space-y-4">
-    <p className="text-red-500 font-bold">{message}</p>
-    <button onClick={handleTryAgain} className="btn btn-warning">
-      Try Again
-    </button>
-  </div>
-)}
+            <div className="flex flex-col items-center space-y-4">
+              <div className="form-control">
+                <label htmlFor="answer" className="label">
+                  <span className="label-text">Answer:</span>
+                </label>
+                <input
+                  id="answer"
+                  type="text"
+                  value={answer}
+                  onChange={handleAnswerChange}
+                  placeholder="Enter your answer"
+                  className="input input-bordered w-full max-w-xs"
+                />
+              </div>
+              <button onClick={handleSubmit} className="btn btn-primary w-full max-w-xs">
+                Submit
+              </button>
+              {message && (
+                <p className={`text-lg font-semibold ${isCorrect ? "text-green-600" : "text-red-600"}`}>
+                  {message}
+                </p>
+              )}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center space-y-4">
+              <p className="text-red-500 font-bold">{message}</p>
+              <button onClick={handleTryAgain} className="btn btn-warning">
+                Try Again
+              </button>
+            </div>
+          )}
 
         </div>
       </div>
-
-
     </div>
   );
 }
