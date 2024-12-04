@@ -112,6 +112,7 @@ export const logout = (req,res) => {
     }
 }
 
+//update profile logic
 export const updateProfile = async (req,res) => {
     try {
         const {profilePic} = req.body;
@@ -130,7 +131,7 @@ export const updateProfile = async (req,res) => {
         
     }
 }
-
+// check auth logic
 export const checkAuth = (req,res) => {
     try {
         res.status(200).json(req.user);

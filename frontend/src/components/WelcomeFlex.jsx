@@ -1,6 +1,8 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function WelcomeFlex() {
+  const navigate = useNavigate();
   return (
     <div
     className="hero min-h-screen"
@@ -15,7 +17,7 @@ function WelcomeFlex() {
         Challenge your brain and have fun while playing our interactive math quiz game! 
         Gaming Monkey is your go-to platform for quick, engaging mini-quiz.
         </p>
-        <button className="btn btn-primary">Get Started</button>
+        <button className="btn btn-primary" onClick={() => navigate("/quiz")}>Get Started</button>
       </div>
     </div>
     </div>
