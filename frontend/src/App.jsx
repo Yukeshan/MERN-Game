@@ -13,7 +13,7 @@ import QuizHard from './components/QuizHard.jsx'
 import { axiosInstance } from './lib/axios.js'
 import { useAuthStore } from './store/useAuthStore.js'
 import {Loader} from "lucide-react"
-import LeaderboardPage from './pages/LeaderboardPage.jsx'
+import MathNews from './pages/NewsPage.jsx'
 
 const App = () => {
 
@@ -46,12 +46,12 @@ const App = () => {
         <Route path='/home' element={authUser ? <HomePage/> : <LoginPage/>} />
         <Route path='/signup' element={authUser ? <HomePage/> : <SignupPage/>} />
         <Route path='/login' element={authUser ? <HomePage/> : <LoginPage/>} />
-        <Route path='/leaderboard'element={authUser ? <LeaderboardPage/> : <LoginPage/>} />
         <Route path='/profile' element={authUser ? <ProfilePage/> : <LoginPage/>} />
         <Route path="/quiz" element={authUser ? <QuizPage />: <LoginPage/>} />
         <Route path="/quiz/easy" element={authUser ? <QuizEasy />: <LoginPage/>} />
         <Route path="/quiz/medium" element={authUser ? <QuizMedium />: <LoginPage/>} />
         <Route path="/quiz/hard" element={authUser ? <QuizHard />: <LoginPage/>} />
+        <Route path="/math-news" element={<MathNews/>} />
 
       </Routes>
 

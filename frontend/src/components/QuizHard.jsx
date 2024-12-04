@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useAuthStore } from "../store/useAuthStore.js";
 
-
 function QuizHard() {
   const [questionImage, setQuestionImage] = useState("");
   const [solution, setSolution] = useState(null);
   const [answer, setAnswer] = useState("");
   const [isCorrect, setIsCorrect] = useState(null);
-  const [lifelines, setLifelines] = useState(1);
-  const [timer, setTimer] = useState(10);
+  const [lifelines, setLifelines] = useState(1); // Reduced lifelines to 1
+  const [timer, setTimer] = useState(10); // Reduced timer to 10 seconds
   const [isTimerRunning, setIsTimerRunning] = useState(true);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [isAnswerSectionVisible, setIsAnswerSectionVisible] = useState(true);
@@ -27,8 +26,8 @@ function QuizHard() {
           setSolution(data.solution);
           setAnswer("");
           setIsCorrect(null);
-          setLifelines(1);
-          setTimer(10);
+          setLifelines(1); // Reset lifelines to 1
+          setTimer(10); // Reset timer to 10 seconds
           setIsTimerRunning(true);
           setIsGameStarted(true);
         } catch (error) {
@@ -67,8 +66,8 @@ function QuizHard() {
       setSolution(data.solution);
       setAnswer("");
       setIsCorrect(null);
-      setLifelines(1);
-      setTimer(10);
+      setLifelines(1); // Reset lifelines to 1
+      setTimer(10); // Reset timer to 10 seconds
       setIsTimerRunning(true);
       setIsAnswerSectionVisible(true);
       setIsTryAgainButtonVisible(false);
@@ -102,7 +101,7 @@ function QuizHard() {
       }
     }
   };
-
+  
   const handleTryAgain = () => {
     setIsGameStarted(false);
     setIsTimerRunning(true);
@@ -112,8 +111,11 @@ function QuizHard() {
     setAnswer("");
     setIsCorrect(null);
     setLifelines(1); // Reset lifelines to 1
-    setTimer(10); // Reset timer to 10s
+    setTimer(10); // Reset timer to 10 seconds
   };
+
+  // Extract user information from the authUser object in the Zustand store
+  const { email } = authUser || {};
 
   return (
     <div className="relative min-h-screen bg-purple-200 flex flex-col items-center justify-center py-8">
@@ -126,20 +128,13 @@ function QuizHard() {
       <div className="card w-4/5 max-w-4xl bg-base-100 shadow-xl mb-6">
         <div className="card-body flex items-start space-x-4">
           {/* User Info */}
-          <div className="flex items-center space-x-4">
-            <div className="avatar">
-              <div className="w-12 h-12 rounded bg-gray-300"></div>
-            </div>
-            <div>
-              <p className="text-sm font-medium">Username: </p>
-              <p className="text-sm">Email: </p>
-              <p className="text-sm">Total Score: </p>
-            </div>
+          <div>
+            <p className="text-sm font-medium">Email: {email || "Loading..."}</p>
           </div>
           {/* Lifelines */}
           <div className="absolute bottom-4 right-4 flex items-center space-x-2 bg-base-200 p-2 rounded-lg shadow-md">
             <p className="font-medium mr-2">Lifelines:</p>
-            {[...Array(1)].map((_, index) => ( // Only 1 lifeline now
+            {[...Array(1)].map((_, index) => ( // Adjusted to show 1 lifeline
               <span
                 key={index}
                 role="img"
@@ -159,7 +154,7 @@ function QuizHard() {
           {/* Timer */}
           <div className="mb-4">
             <p className="mb-2 text-sm font-medium">Timer: {timer}s</p>
-            <progress className="progress progress-primary w-full" value={timer} max="10"></progress>
+            <progress className="progress progress-primary w-full" value={timer} max="10"></progress> {/* Timer max is now 10 */}
           </div>
 
           {/* Question */}
@@ -208,7 +203,6 @@ function QuizHard() {
               </button>
             </div>
           )}
-
         </div>
       </div>
     </div>

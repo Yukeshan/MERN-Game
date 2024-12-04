@@ -24,6 +24,11 @@ function LoginPage() {
     return true;
   };
 
+  const handleGoogleSignIn = () => {
+    // Placeholder for Google Sign-In action
+    alert('Google Sign-In button clicked!');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -80,7 +85,13 @@ function LoginPage() {
           >
             {isLoggingIn ? "Logging In..." : "Log In"}
           </button>
+
+
+
         </form>
+
+      
+
         <p className="text-center mt-4 text-gray-600">
           Don't have an account?{" "}
           <button

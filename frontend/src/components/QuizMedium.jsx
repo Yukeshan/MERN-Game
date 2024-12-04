@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useAuthStore } from "../store/useAuthStore.js";
 
-
 function QuizMedium() {
   const [questionImage, setQuestionImage] = useState("");
   const [solution, setSolution] = useState(null);
   const [answer, setAnswer] = useState("");
   const [isCorrect, setIsCorrect] = useState(null);
-  const [lifelines, setLifelines] = useState(2); 
-  const [timer, setTimer] = useState(20); 
+  const [lifelines, setLifelines] = useState(2); // Reduced lifelines to 2
+  const [timer, setTimer] = useState(20); // Reduced timer to 20 seconds
   const [isTimerRunning, setIsTimerRunning] = useState(true);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [isAnswerSectionVisible, setIsAnswerSectionVisible] = useState(true);
@@ -27,8 +26,8 @@ function QuizMedium() {
           setSolution(data.solution);
           setAnswer("");
           setIsCorrect(null);
-          setLifelines(2);
-          setTimer(20);
+          setLifelines(2); // Reset lifelines to 2
+          setTimer(20); // Reset timer to 20 seconds
           setIsTimerRunning(true);
           setIsGameStarted(true);
         } catch (error) {
@@ -62,13 +61,13 @@ function QuizMedium() {
     try {
       const response = await fetch("https://marcconrad.com/uob/banana/api");
       const data = await response.json();
-
+  
       setQuestionImage(data.question);
       setSolution(data.solution);
       setAnswer("");
       setIsCorrect(null);
-      setLifelines(2);
-      setTimer(20); 
+      setLifelines(2); // Reset lifelines to 2
+      setTimer(20); // Reset timer to 20 seconds
       setIsTimerRunning(true);
       setIsAnswerSectionVisible(true);
       setIsTryAgainButtonVisible(false);
@@ -94,8 +93,7 @@ function QuizMedium() {
       if (lifelines > 0) {
         setLifelines((prev) => prev - 1);
       }
-      if (lifelines - 1 === 0) {
-        // When lifelines reach zero
+      if (lifelines - 1 === 0) { // When lifelines reach zero
         setIsTimerRunning(false);
         setIsAnswerSectionVisible(false);
         setIsTryAgainButtonVisible(true);
@@ -103,7 +101,7 @@ function QuizMedium() {
       }
     }
   };
-
+  
   const handleTryAgain = () => {
     setIsGameStarted(false);
     setIsTimerRunning(true);
@@ -112,9 +110,12 @@ function QuizMedium() {
     setMessage("");
     setAnswer("");
     setIsCorrect(null);
-    setLifelines(2);
-    setTimer(20);
+    setLifelines(2); // Reset lifelines to 2
+    setTimer(20); // Reset timer to 20 seconds
   };
+
+  // Extract user information from the authUser object in the Zustand store
+  const { email } = authUser || {};
 
   return (
     <div className="relative min-h-screen bg-purple-200 flex flex-col items-center justify-center py-8">
@@ -127,20 +128,13 @@ function QuizMedium() {
       <div className="card w-4/5 max-w-4xl bg-base-100 shadow-xl mb-6">
         <div className="card-body flex items-start space-x-4">
           {/* User Info */}
-          <div className="flex items-center space-x-4">
-            <div className="avatar">
-              <div className="w-12 h-12 rounded bg-gray-300"></div>
-            </div>
-            <div>
-              <p className="text-sm font-medium">Username: </p>
-              <p className="text-sm">Email: </p>
-              <p className="text-sm">Total Score: </p>
-            </div>
+          <div>
+            <p className="text-sm font-medium">Email: {email || "Loading..."}</p>
           </div>
           {/* Lifelines */}
           <div className="absolute bottom-4 right-4 flex items-center space-x-2 bg-base-200 p-2 rounded-lg shadow-md">
             <p className="font-medium mr-2">Lifelines:</p>
-            {[...Array(2)].map((_, index) => (
+            {[...Array(2)].map((_, index) => ( // Adjusted to show 2 lifelines
               <span
                 key={index}
                 role="img"
@@ -160,7 +154,7 @@ function QuizMedium() {
           {/* Timer */}
           <div className="mb-4">
             <p className="mb-2 text-sm font-medium">Timer: {timer}s</p>
-            <progress className="progress progress-primary w-full" value={timer} max="20"></progress>
+            <progress className="progress progress-primary w-full" value={timer} max="20"></progress> {/* Timer max is now 20 */}
           </div>
 
           {/* Question */}
@@ -196,11 +190,7 @@ function QuizMedium() {
                 Submit
               </button>
               {message && (
-                <p
-                  className={`text-lg font-semibold ${
-                    isCorrect ? "text-green-600" : "text-red-600"
-                  }`}
-                >
+                <p className={`text-lg font-semibold ${isCorrect ? "text-green-600" : "text-red-600"}`}>
                   {message}
                 </p>
               )}

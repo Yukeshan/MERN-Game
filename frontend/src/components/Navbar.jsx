@@ -56,7 +56,10 @@ function Navbar() {
               <a onClick={() => handleNavigation("/quiz")}>Quiz</a>
             </li>
             <li>
-              <a onClick={() => handleNavigation("/leaderboard")}>Leaderboard</a>
+              <a onClick={() => handleNavigation("/profile")}>Profile</a>
+            </li>
+            <li>
+              <a onClick={() => handleNavigation("/math-news")}>Math News</a>
             </li>
           </ul>
         </div>
@@ -73,7 +76,10 @@ function Navbar() {
             <a onClick={() => handleNavigation("/quiz")}>Quiz</a>
           </li>
           <li>
-            <a onClick={() => handleNavigation("/leaderboard")}>Leaderboard</a>
+            <a onClick={() => handleNavigation("/profile")}>Profile</a>
+          </li>
+          <li>
+              <a onClick={() => handleNavigation("/math-news")}>Math News</a>
           </li>
         </ul>
       </div>
